@@ -6,15 +6,21 @@ import GoalItem from './components/GoalItem';
 
 export default function App() {
   const [courseGoals, setCourseGoals] = useState([]);
+  const [isAddMode, setIsAddMode] = useState(false);
 
   const addGoalHandler = goal => {
     setCourseGoals(currentGoals => [...currentGoals, { id: Math.random().toString(), value: goal }]);
+    setIsAddMode(false);
   }
 
   const removeGoalHandle = goalId => {
     setCourseGoals(currentGoals => {
       return currentGoals.filter((goal) => goal.id !== goalId)
     })
+  }
+
+  const cancelIsAddModeHandler = () => {
+    setIsAddMode(false);
   }
 
   return (
@@ -24,7 +30,9 @@ export default function App() {
         Manage your daily goals
       </Text>
 
-      <GoalInput addGoal={addGoalHandler} />
+      <Button title="Add new goal" onPress={() => setIsAddMode(true)} />
+
+      <GoalInput isAddMode={isAddMode} addGoal={addGoalHandler} cancel={cancelIsAddModeHandler} />
 
 
       <FlatList
