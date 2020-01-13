@@ -8,7 +8,13 @@ export default function App() {
   const [courseGoals, setCourseGoals] = useState([]);
 
   const addGoalHandler = goal => {
-    setCourseGoals(currentGoals => [...currentGoals, { key: Math.random().toString(), value: goal }]);
+    setCourseGoals(currentGoals => [...currentGoals, { id: Math.random().toString(), value: goal }]);
+  }
+
+  const removeGoalHandle = goalId => {
+    setCourseGoals(currentGoals => {
+      return currentGoals.filter((goal) => goal.id !== goalId)
+    })
   }
 
   return (
@@ -21,11 +27,10 @@ export default function App() {
       <GoalInput addGoal={addGoalHandler} />
 
 
-
       <FlatList
         style={styles.listContainer}
         data={courseGoals}
-        renderItem={itemData => <GoalItem title={itemData.item.value} />}
+        renderItem={itemData => <GoalItem title={itemData.item.value} id={itemData.item.id} deleteGoal={removeGoalHandle} />}
       />
 
       {/* <ScrollView style={styles.listContainer}>
